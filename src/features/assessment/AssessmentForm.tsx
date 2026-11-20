@@ -206,11 +206,14 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   data={mobilityOptions}
                   {...form.getInputProps('mobility')}
                 />
+                {/* clampBehavior="none": a typed score must reach the schema
+                    and be rejected there, never silently clamped to range. */}
                 <NumberInput
                   label="Barthel Index"
                   description="Independence in daily activities, scored 0–100 in steps of 5"
                   size="md"
                   radius="md"
+                  clampBehavior="none"
                   leftSection={<IconActivity size={18} stroke={1.5} />}
                   step={5}
                   min={0}
@@ -222,6 +225,7 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   description="Medicines the patient takes every day"
                   size="md"
                   radius="md"
+                  clampBehavior="none"
                   leftSection={<IconPill size={18} stroke={1.5} />}
                   min={0}
                   max={30}
