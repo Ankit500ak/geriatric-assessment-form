@@ -84,7 +84,10 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
   const [saved, setSaved] = useState<Assessment | null>(null);
 
   const form = useForm({
-    mode: 'uncontrolled',
+    // Controlled on purpose: with the uncontrolled default, setValues (the
+    // sample-patient button) updates the state but does not repaint the
+    // date, select, number and checkbox inputs.
+    mode: 'controlled',
     initialValues,
     validate: schemaResolver(assessmentSchema),
     validateInputOnBlur: true,
