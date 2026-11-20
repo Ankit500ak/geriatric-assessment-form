@@ -59,3 +59,8 @@ export const assessmentSchema = z
   });
 
 export type Assessment = z.infer<typeof assessmentSchema>;
+
+/** 'home_visit' -> 'Home visit', for showing a stored value to a person. */
+export function mobilityLabel(value: Assessment['mobility']): string {
+  return value.replace(/_/g, ' ').replace(/^./, (letter) => letter.toUpperCase());
+}

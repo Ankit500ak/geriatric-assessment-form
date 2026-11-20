@@ -6,21 +6,17 @@ import {
   IconCalendar,
   IconCalendarPlus,
   IconCheck,
-  IconCircleCheck,
   IconHash,
   IconPill,
   IconStethoscope,
   IconUser,
 } from '@tabler/icons-react';
 import {
-  Alert,
   Badge,
   Box,
   Button,
   Checkbox,
-  Code,
   Container,
-  Divider,
   Group,
   NumberInput,
   Paper,
@@ -34,15 +30,13 @@ import {
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { schemaResolver, useForm } from '@mantine/form';
+import { AssessmentCard } from './AssessmentCard';
 import { samplePatient } from './sample';
-import { assessmentSchema, MOBILITY, type Assessment } from './schema';
+import { assessmentSchema, MOBILITY, mobilityLabel, type Assessment } from './schema';
 
-// 'home_visit' -> 'Home visit'. Built from MOBILITY, so a new value in the
-// schema shows up here with no other edit.
-const mobilityOptions = MOBILITY.map((value) => ({
-  value,
-  label: value.replace(/_/g, ' ').replace(/^./, (letter) => letter.toUpperCase()),
-}));
+// Options are built from MOBILITY, so a new value in the schema shows up
+// here with no other edit.
+const mobilityOptions = MOBILITY.map((value) => ({ value, label: mobilityLabel(value) }));
 
 const initialValues = {
   mrn: '',
@@ -120,11 +114,38 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
         pt="xl"
         pb={76}
         style={{
+          position: 'relative',
+          overflow: 'hidden',
           background:
             'linear-gradient(135deg, var(--mantine-color-teal-9) 0%, var(--mantine-color-teal-6) 100%)',
         }}
       >
-        <Container size="sm">
+        {/* Soft decorative circles in the header band. */}
+        <Box
+          aria-hidden
+          style={{
+            position: 'absolute',
+            top: -70,
+            right: -50,
+            width: 230,
+            height: 230,
+            borderRadius: '50%',
+            background: 'rgb(255 255 255 / 8%)',
+          }}
+        />
+        <Box
+          aria-hidden
+          style={{
+            position: 'absolute',
+            bottom: -90,
+            left: '38%',
+            width: 170,
+            height: 170,
+            borderRadius: '50%',
+            background: 'rgb(255 255 255 / 6%)',
+          }}
+        />
+        <Container size="sm" style={{ position: 'relative' }}>
           <Group gap="md" wrap="nowrap">
             <ThemeIcon size={52} radius="xl" variant="white" color="teal">
               <IconStethoscope size={28} stroke={1.6} />
@@ -147,138 +168,152 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
       <Container size="sm" style={{ marginTop: -52 }} pb="xl">
         <Paper withBorder shadow="sm" radius="lg" p="xl">
           <form onSubmit={form.onSubmit(handleSubmit)}>
-            <SectionHeading
-              icon={IconUser}
-              title="Patient details"
-              description="Who the visit is for"
-            />
-            <Stack gap="md">
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                <TextInput
-                  label="Medical record number"
-                  placeholder="MRN-004821"
-                  size="md"
-                  leftSection={<IconHash size={18} stroke={1.5} />}
-                  {...form.getInputProps('mrn')}
+            <Stack gap="lg">
+              <Box p="lg" style={{ borderRadius: 'var(--mantine-radius-lg)' }} bg="gray.0">
+                <SectionHeading
+                  icon={IconUser}
+                  title="Patient details"
+                  description="Who the visit is for"
                 />
-                <DateInput
-                  label="Date of birth"
-                  placeholder="YYYY-MM-DD"
-                  valueFormat="YYYY-MM-DD"
-                  size="md"
-                  leftSection={<IconCalendar size={18} stroke={1.5} />}
-                  {...form.getInputProps('dateOfBirth')}
+                <Stack gap="md">
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <TextInput
+                      label="Medical record number"
+                      placeholder="MRN-004821"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconHash size={18} stroke={1.5} />}
+                      {...form.getInputProps('mrn')}
+                    />
+                    <DateInput
+                      label="Date of birth"
+                      placeholder="YYYY-MM-DD"
+                      valueFormat="YYYY-MM-DD"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconCalendar size={18} stroke={1.5} />}
+                      {...form.getInputProps('dateOfBirth')}
+                    />
+                  </SimpleGrid>
+                  <TextInput
+                    label="Patient name"
+                    placeholder="Full name"
+                    size="md"
+                    radius="md"
+                    leftSection={<IconUser size={18} stroke={1.5} />}
+                    {...form.getInputProps('patientName')}
+                  />
+                </Stack>
+              </Box>
+
+              <Box p="lg" style={{ borderRadius: 'var(--mantine-radius-lg)' }} bg="gray.0">
+                <SectionHeading
+                  icon={IconStethoscope}
+                  title="Today's assessment"
+                  description="Recorded by the visiting nurse"
                 />
-              </SimpleGrid>
-              <TextInput
-                label="Patient name"
-                placeholder="Full name"
-                size="md"
-                leftSection={<IconUser size={18} stroke={1.5} />}
-                {...form.getInputProps('patientName')}
-              />
+                <Stack gap="md">
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <DateInput
+                      label="Assessment date"
+                      placeholder="YYYY-MM-DD"
+                      valueFormat="YYYY-MM-DD"
+                      maxDate={dayjs().format('YYYY-MM-DD')}
+                      size="md"
+                      radius="md"
+                      leftSection={<IconCalendar size={18} stroke={1.5} />}
+                      {...form.getInputProps('assessmentDate')}
+                    />
+                    <Select
+                      label="Mobility"
+                      placeholder="Select mobility status"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconAccessible size={18} stroke={1.5} />}
+                      data={mobilityOptions}
+                      {...form.getInputProps('mobility')}
+                    />
+                    <NumberInput
+                      label="Barthel Index"
+                      description="Independence in daily activities, scored 0–100 in steps of 5"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconActivity size={18} stroke={1.5} />}
+                      step={5}
+                      min={0}
+                      max={100}
+                      {...form.getInputProps('barthelIndex')}
+                    />
+                    <NumberInput
+                      label="Regular medications"
+                      description="Medicines the patient takes every day"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconPill size={18} stroke={1.5} />}
+                      min={0}
+                      max={30}
+                      {...form.getInputProps('medicationCount')}
+                    />
+                  </SimpleGrid>
+                  <Checkbox
+                    label="Pharmacist review requested"
+                    size="md"
+                    {...form.getInputProps('pharmacistReviewRequested', { type: 'checkbox' })}
+                  />
+                </Stack>
+              </Box>
+
+              <Box p="lg" style={{ borderRadius: 'var(--mantine-radius-lg)' }} bg="gray.0">
+                <SectionHeading
+                  icon={IconCalendarPlus}
+                  title="Follow-up & consent"
+                  description="Next steps after this visit"
+                />
+                <Stack gap="md">
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <DateInput
+                      label="Next review date"
+                      placeholder="YYYY-MM-DD"
+                      valueFormat="YYYY-MM-DD"
+                      size="md"
+                      radius="md"
+                      leftSection={<IconCalendar size={18} stroke={1.5} />}
+                      {...form.getInputProps('followUpDate')}
+                    />
+                  </SimpleGrid>
+                  <Checkbox
+                    label="Patient or representative has given consent"
+                    size="md"
+                    {...form.getInputProps('consentObtained', { type: 'checkbox' })}
+                  />
+                </Stack>
+              </Box>
+
+              <Group>
+                <Button
+                  type="submit"
+                  size="md"
+                  radius="md"
+                  loading={saving}
+                  leftSection={<IconCheck size={18} />}
+                >
+                  Save assessment
+                </Button>
+                <Button
+                  type="button"
+                  size="md"
+                  radius="md"
+                  variant="light"
+                  color="gray"
+                  onClick={loadSample}
+                >
+                  Load sample patient
+                </Button>
+              </Group>
             </Stack>
-
-            <Divider my="xl" />
-
-            <SectionHeading
-              icon={IconStethoscope}
-              title="Today's assessment"
-              description="Recorded by the visiting nurse"
-            />
-            <Stack gap="md">
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                <DateInput
-                  label="Assessment date"
-                  placeholder="YYYY-MM-DD"
-                  valueFormat="YYYY-MM-DD"
-                  maxDate={dayjs().format('YYYY-MM-DD')}
-                  size="md"
-                  leftSection={<IconCalendar size={18} stroke={1.5} />}
-                  {...form.getInputProps('assessmentDate')}
-                />
-                <Select
-                  label="Mobility"
-                  placeholder="Select mobility status"
-                  size="md"
-                  leftSection={<IconAccessible size={18} stroke={1.5} />}
-                  data={mobilityOptions}
-                  {...form.getInputProps('mobility')}
-                />
-                <NumberInput
-                  label="Barthel Index"
-                  description="Independence in daily activities, scored 0–100 in steps of 5"
-                  size="md"
-                  leftSection={<IconActivity size={18} stroke={1.5} />}
-                  step={5}
-                  min={0}
-                  max={100}
-                  {...form.getInputProps('barthelIndex')}
-                />
-                <NumberInput
-                  label="Regular medications"
-                  description="Medicines the patient takes every day"
-                  size="md"
-                  leftSection={<IconPill size={18} stroke={1.5} />}
-                  min={0}
-                  max={30}
-                  {...form.getInputProps('medicationCount')}
-                />
-              </SimpleGrid>
-              <Checkbox
-                label="Pharmacist review requested"
-                size="md"
-                {...form.getInputProps('pharmacistReviewRequested', { type: 'checkbox' })}
-              />
-            </Stack>
-
-            <Divider my="xl" />
-
-            <SectionHeading
-              icon={IconCalendarPlus}
-              title="Follow-up & consent"
-              description="Next steps after this visit"
-            />
-            <Stack gap="md">
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                <DateInput
-                  label="Next review date"
-                  placeholder="YYYY-MM-DD"
-                  valueFormat="YYYY-MM-DD"
-                  size="md"
-                  leftSection={<IconCalendar size={18} stroke={1.5} />}
-                  {...form.getInputProps('followUpDate')}
-                />
-              </SimpleGrid>
-              <Checkbox
-                label="Patient or representative has given consent"
-                size="md"
-                {...form.getInputProps('consentObtained', { type: 'checkbox' })}
-              />
-            </Stack>
-
-            <Divider my="xl" />
-
-            <Group>
-              <Button
-                type="submit"
-                size="md"
-                loading={saving}
-                leftSection={<IconCheck size={18} />}
-              >
-                Save assessment
-              </Button>
-              <Button type="button" size="md" variant="light" color="gray" onClick={loadSample}>
-                Load sample patient
-              </Button>
-            </Group>
           </form>
 
-          {saved && (
-            <Alert color="teal" title="Assessment saved" mt="xl" icon={<IconCircleCheck />}>
-              <Code block>{JSON.stringify(saved, null, 2)}</Code>
-            </Alert>
-          )}
+          {saved && <AssessmentCard assessment={saved} />}
         </Paper>
 
         <Text ta="center" size="xs" c="dimmed" mt="md">
