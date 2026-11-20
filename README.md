@@ -1,44 +1,61 @@
-# Mantine Vite template
+# Geriatric Care Assessment Form
 
-## Features
+A one-page form a visiting nurse fills in when checking on an elderly patient
+at home. Built with React 19, TypeScript, Mantine and Zod, starting from
+Mantine's Vite template.
 
-This template comes with the following features:
+**Live demo:** _to be added after deployment_
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Vitest](https://vitest.dev/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- [Vite+](https://viteplus.dev/) unified toolchain: Vite, Vitest, Oxlint and Oxfmt are run with `vp` and configured in `vite.config.mjs`
+## Run it locally
 
-## Vite+ CLI
+```bash
+yarn install
+yarn dev
+```
 
-The template works without any global installation: `vp` is installed as a dev dependency and all npm scripts use it.
+```bash
+yarn test   # typecheck, lint, format check, unit tests and production build
+```
 
-Optionally, you can install the [global `vp` CLI](https://viteplus.dev/guide/global-cli).
-It automatically switches to the Node.js version pinned in `.node-version` and lets you run commands directly, for example `vp dev` or `vp check --fix` instead of `yarn vp check --fix`.
+## How it is put together
 
-## npm scripts
+- `src/features/assessment/schema.ts` — the Zod schema from the brief, used
+  exactly as given. It is the single source of truth for every rule: field
+  formats, the Barthel Index steps of 5, the age-60 pathway check, the
+  follow-up-after-assessment check and the polypharmacy rule.
+- `src/features/assessment/AssessmentForm.tsx` — the form itself. It wires the
+  schema into `@mantine/form` with `schemaResolver`, so no validation rule is
+  repeated in the components. Errors appear under each field, validation runs
+  on blur and on submit, and untouched fields stay quiet.
+- `src/features/assessment/sample.ts` — the invented sample patient from the
+  brief, loaded by the "Load sample patient" button.
 
-## Build and dev scripts
+Two decisions worth noting:
 
-- `dev` – start development server
-- `build` – build production version of the app
-- `build:analyze` – build the app and open bundle size visualization (`dist/stats.html`)
-- `preview` – locally preview production build
+- The form's initial values are the *input* shape (empty strings where a
+  nurse has not typed anything yet), because an empty form can never satisfy
+  the schema's output type. On submit, the values are run through
+  `assessmentSchema.parse`, and it is that parsed `Assessment` — not the raw
+  form state — that is shown in the success alert and passed to the save
+  handler.
+- The Mobility dropdown options are derived from the schema's `MOBILITY`
+  array, so adding a value there (for example `home_visit`) makes it appear
+  in the dropdown, correctly labelled, with no other change.
 
-### Testing scripts
+Saving is faked with an ~800 ms delay and a loading button, as the brief
+asked; there is no backend.
 
-- `check` – checks formatting, lint rules and TypeScript types with `vp check`
-- `check:fix` – same as `check`, fixes formatting and auto-fixable lint errors
-- `typecheck` – checks TypeScript types
-- `lint` – runs oxlint and stylelint
-- `format:test` – checks files with oxfmt
-- `vitest` – runs vitest tests
-- `vitest:watch` – starts vitest watch
-- `test` – runs `check`, `stylelint`, `vitest` and `build` scripts
+## Tests
 
-### Other scripts
+- `schema.test.ts` — the age boundary: a patient who turns exactly 60 on the
+  assessment date is accepted; one day younger is rejected, with the error on
+  `dateOfBirth`.
+- `AssessmentForm.test.tsx` — loads the sample patient, submits, and checks
+  the save handler was called with the parsed values.
 
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `format:write` – formats all files with oxfmt
+## Time spent
+
+About 1.5 hours, including setup, the form, the tests and deployment.
+
+Nothing from the brief is left unfinished. Backend, auth, routing and custom
+styling were out of scope and are intentionally not here.
