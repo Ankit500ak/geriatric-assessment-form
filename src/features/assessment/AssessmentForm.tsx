@@ -118,7 +118,7 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
         <Container size="sm" py="sm">
           <Group justify="space-between">
             <Group gap="sm" wrap="nowrap">
-              <ThemeIcon size={38} radius="md" color="teal">
+              <ThemeIcon size={38} color="teal">
                 <IconStethoscope size={22} stroke={1.7} />
               </ThemeIcon>
               <div>
@@ -152,7 +152,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   label="Medical record number"
                   placeholder="MRN-004821"
                   size="md"
-                  radius="md"
                   leftSection={<IconHash size={18} stroke={1.5} />}
                   {...form.getInputProps('mrn')}
                 />
@@ -161,7 +160,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   placeholder="YYYY-MM-DD"
                   valueFormat="YYYY-MM-DD"
                   size="md"
-                  radius="md"
                   leftSection={<IconCalendar size={18} stroke={1.5} />}
                   {...form.getInputProps('dateOfBirth')}
                 />
@@ -170,7 +168,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                 label="Patient name"
                 placeholder="Full name"
                 size="md"
-                radius="md"
                 leftSection={<IconUser size={18} stroke={1.5} />}
                 {...form.getInputProps('patientName')}
               />
@@ -191,7 +188,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   valueFormat="YYYY-MM-DD"
                   maxDate={dayjs().format('YYYY-MM-DD')}
                   size="md"
-                  radius="md"
                   leftSection={<IconCalendar size={18} stroke={1.5} />}
                   {...form.getInputProps('assessmentDate')}
                 />
@@ -199,7 +195,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   label="Mobility"
                   placeholder="Select mobility status"
                   size="md"
-                  radius="md"
                   leftSection={<IconAccessible size={18} stroke={1.5} />}
                   data={mobilityOptions}
                   {...form.getInputProps('mobility')}
@@ -209,7 +204,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   label="Barthel Index"
                   description="Independence in daily activities, scored 0–100 in steps of 5"
                   size="md"
-                  radius="md"
                   clampBehavior="none"
                   leftSection={<IconActivity size={18} stroke={1.5} />}
                   step={5}
@@ -221,7 +215,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   label="Regular medications"
                   description="Medicines the patient takes every day"
                   size="md"
-                  radius="md"
                   clampBehavior="none"
                   leftSection={<IconPill size={18} stroke={1.5} />}
                   min={0}
@@ -250,7 +243,6 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   placeholder="YYYY-MM-DD"
                   valueFormat="YYYY-MM-DD"
                   size="md"
-                  radius="md"
                   leftSection={<IconCalendar size={18} stroke={1.5} />}
                   {...form.getInputProps('followUpDate')}
                 />
@@ -268,20 +260,12 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
               <Button
                 type="submit"
                 size="md"
-                radius="md"
                 loading={saving}
                 leftSection={<IconCheck size={18} />}
               >
                 Save assessment
               </Button>
-              <Button
-                type="button"
-                size="md"
-                radius="md"
-                variant="light"
-                color="gray"
-                onClick={loadSample}
-              >
+              <Button type="button" size="md" variant="light" color="gray" onClick={loadSample}>
                 Load sample patient
               </Button>
             </Group>

@@ -1,4 +1,4 @@
-/* Soft teal-tinted page background so the white form card sits calmly on it. */
+/* Page background. */
 body {
   background-color: var(--mantine-color-teal-0);
 }
