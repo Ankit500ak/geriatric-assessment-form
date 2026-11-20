@@ -1,6 +1,6 @@
 import type { Assessment } from './schema';
 
-// Invented sample patient from the assignment brief — safe to load and submit.
+// Made-up patient for the "Load sample patient" button.
 export const samplePatient: Assessment = {
   mrn: 'MRN-004821',
   patientName: 'Sushila Deshpande',

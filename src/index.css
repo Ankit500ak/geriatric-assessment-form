@@ -3,7 +3,7 @@ body {
   background-color: var(--mantine-color-teal-0);
 }
 
-/* Saved-card reveal: rises in with a tilt, then one light sweep across it. */
+/* Saved card reveal animation. */
 @keyframes card-in {
   from {
     opacity: 0;

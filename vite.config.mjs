@@ -6,20 +6,11 @@ import { defineConfig, lazyPlugins } from 'vite-plus';
 export default defineConfig({
   fmt: {
     ...oxfmt,
-    ignorePatterns: [
-      ...oxfmt.ignorePatterns,
-      'dist',
-      'docs',
-      'storybook-static',
-      '*.html',
-      '*.yml',
-      '*.json',
-      '*.css',
-    ],
+    ignorePatterns: [...oxfmt.ignorePatterns, 'dist', 'docs', '*.html', '*.yml', '*.json', '*.css'],
   },
   lint: {
     ...oxlint,
-    ignorePatterns: ['**/*.{mjs,cjs,js,d.ts,d.mts}', 'dist', 'docs', 'storybook-static'],
+    ignorePatterns: ['**/*.{mjs,cjs,js,d.ts,d.mts}', 'dist', 'docs'],
     options: { typeAware: true, typeCheck: true },
   },
   plugins: lazyPlugins(() => [

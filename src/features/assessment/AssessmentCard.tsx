@@ -16,7 +16,7 @@ function CardField({ label, value }: { label: string; value: string }) {
   );
 }
 
-// The saved assessment as a record card. The reveal animation is in index.css.
+// Saved assessment as a record card. The reveal animation is in index.css.
 export function AssessmentCard({ assessment }: { assessment: Assessment }) {
   const date = (iso: string) => dayjs(iso).format('DD MMM YYYY');
 
@@ -32,7 +32,6 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
         boxShadow: 'var(--mantine-shadow-lg), inset 0 0 0 1px rgb(255 255 255 / 14%)',
       }}
     >
-      {/* Hologram circles, like the ones printed on real ID cards. */}
       <Box
         aria-hidden
         style={{
@@ -78,7 +77,6 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
       </Group>
 
       <Group gap="md" mt="xl" align="center">
-        {/* Card chip, purely decorative. */}
         <Box
           aria-hidden
           w={42}
@@ -119,7 +117,6 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
         <Text size="xs" c="teal.1" tt="uppercase" style={{ letterSpacing: 1.2 }}>
           Valid for home-visit care
         </Text>
-        {/* Scannable strip, purely decorative. */}
         <Box
           aria-hidden
           w={132}

@@ -34,8 +34,7 @@ import { AssessmentCard } from './AssessmentCard';
 import { samplePatient } from './sample';
 import { assessmentSchema, MOBILITY, mobilityLabel, type Assessment } from './schema';
 
-// Options are built from MOBILITY, so a new value in the schema shows up
-// here with no other edit.
+// Dropdown options come from the schema's MOBILITY list.
 const mobilityOptions = MOBILITY.map((value) => ({ value, label: mobilityLabel(value) }));
 
 const initialValues = {
@@ -94,8 +93,7 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
   });
 
   async function handleSubmit(values: typeof form.values) {
-    // Validation has already passed, so this parse cannot fail — it turns the
-    // raw form state into the typed Assessment the rest of the app works with.
+    // The resolver already validated, so this just returns the typed values.
     const parsed = assessmentSchema.parse(values);
     setSaving(true);
     await new Promise((resolve) => setTimeout(resolve, 800));
@@ -206,8 +204,7 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
                   data={mobilityOptions}
                   {...form.getInputProps('mobility')}
                 />
-                {/* clampBehavior="none": a typed score must reach the schema
-                    and be rejected there, never silently clamped to range. */}
+                {/* No clamping: typed scores go to the schema and get rejected there. */}
                 <NumberInput
                   label="Barthel Index"
                   description="Independence in daily activities, scored 0–100 in steps of 5"

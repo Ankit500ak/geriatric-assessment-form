@@ -10,7 +10,7 @@ describe('AssessmentForm', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Load sample patient' }));
 
-    // Every field must visibly fill, not just the underlying form state.
+    // The loaded values must show in the inputs, not just in form state.
     expect(screen.getByLabelText('Barthel Index')).toHaveValue('80');
     expect(screen.getByRole('combobox', { name: 'Mobility' })).toHaveValue('Cane');
     expect(screen.getByLabelText('Date of birth')).toHaveValue('1949-03-12');

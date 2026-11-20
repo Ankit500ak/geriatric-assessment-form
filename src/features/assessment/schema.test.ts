@@ -1,7 +1,7 @@
 import { samplePatient } from './sample';
 import { assessmentSchema } from './schema';
 
-describe('assessmentSchema — age 60 rule', () => {
+describe('assessmentSchema: age 60 rule', () => {
   it('accepts a patient who turns 60 on the assessment date', () => {
     const result = assessmentSchema.safeParse({ ...samplePatient, dateOfBirth: '1966-08-07' });
     expect(result.success).toBe(true);
