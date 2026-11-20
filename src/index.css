@@ -1,0 +1,4 @@
+/* Soft page background so the white form card sits calmly on top of it. */
+body {
+  background-color: var(--mantine-color-gray-0);
+}
