@@ -3,8 +3,7 @@ body {
   background-color: var(--mantine-color-teal-0);
 }
 
-/* The saved-assessment card rises in with a slight 3D tilt, then a band of
-   light sweeps across it once — the polished reveal used on card UIs. */
+/* Saved-card reveal: rises in with a tilt, then one light sweep across it. */
 @keyframes card-in {
   from {
     opacity: 0;

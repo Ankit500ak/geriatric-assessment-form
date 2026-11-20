@@ -16,10 +16,7 @@ function CardField({ label, value }: { label: string; value: string }) {
   );
 }
 
-/**
- * The saved assessment, presented as a patient record card. The entrance
- * animation and light sweep live in index.css (.assessment-card).
- */
+// The saved assessment as a record card. The reveal animation is in index.css.
 export function AssessmentCard({ assessment }: { assessment: Assessment }) {
   const date = (iso: string) => dayjs(iso).format('DD MMM YYYY');
 
@@ -31,10 +28,36 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
       style={{
         borderRadius: 'var(--mantine-radius-lg)',
         background:
-          'linear-gradient(120deg, var(--mantine-color-teal-9) 0%, var(--mantine-color-teal-7) 55%, var(--mantine-color-teal-6) 100%)',
-        boxShadow: 'var(--mantine-shadow-lg)',
+          'linear-gradient(125deg, var(--mantine-color-teal-9) 0%, var(--mantine-color-teal-7) 58%, var(--mantine-color-teal-6) 100%)',
+        boxShadow: 'var(--mantine-shadow-lg), inset 0 0 0 1px rgb(255 255 255 / 14%)',
       }}
     >
+      {/* Hologram circles, like the ones printed on real ID cards. */}
+      <Box
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: -46,
+          right: 34,
+          width: 128,
+          height: 128,
+          borderRadius: '50%',
+          background: 'rgb(255 255 255 / 9%)',
+        }}
+      />
+      <Box
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: -18,
+          right: 96,
+          width: 84,
+          height: 84,
+          borderRadius: '50%',
+          background: 'rgb(255 255 255 / 7%)',
+        }}
+      />
+
       <Group justify="space-between" align="flex-start" wrap="nowrap">
         <Group gap="sm" wrap="nowrap">
           <ThemeIcon size={40} radius="xl" variant="white" color="teal">
@@ -42,9 +65,9 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
           </ThemeIcon>
           <div>
             <Text fw={700} c="white" lh={1.15}>
-              Geriatric Care Assessment
+              Geriatric Care
             </Text>
-            <Text size="xs" c="teal.1" tt="uppercase" style={{ letterSpacing: 1 }}>
+            <Text size="xs" c="teal.1" tt="uppercase" style={{ letterSpacing: 1.4 }}>
               Home visit record card
             </Text>
           </div>
@@ -54,7 +77,24 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
         </Badge>
       </Group>
 
-      <Text size="xs" tt="uppercase" fw={600} c="teal.2" mt="xl" style={{ letterSpacing: 0.8 }}>
+      <Group gap="md" mt="xl" align="center">
+        {/* Card chip, purely decorative. */}
+        <Box
+          aria-hidden
+          w={42}
+          h={30}
+          style={{
+            borderRadius: 7,
+            background: 'linear-gradient(135deg, #ffe08a 0%, #d9a62e 100%)',
+            boxShadow: 'inset 0 0 0 1px rgb(0 0 0 / 15%)',
+          }}
+        />
+        <Text c="teal.0" size="lg" fw={600} style={{ letterSpacing: 2.5 }}>
+          {assessment.mrn}
+        </Text>
+      </Group>
+
+      <Text size="xs" tt="uppercase" fw={600} c="teal.2" mt="lg" style={{ letterSpacing: 0.8 }}>
         Patient name
       </Text>
       <Text fw={700} c="white" size="xl" lh={1.2}>
@@ -62,7 +102,6 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
       </Text>
 
       <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="lg" mt="lg">
-        <CardField label="MRN" value={assessment.mrn} />
         <CardField label="Date of birth" value={date(assessment.dateOfBirth)} />
         <CardField label="Assessment date" value={date(assessment.assessmentDate)} />
         <CardField label="Mobility" value={mobilityLabel(assessment.mobility)} />
@@ -77,17 +116,9 @@ export function AssessmentCard({ assessment }: { assessment: Assessment }) {
       </SimpleGrid>
 
       <Group justify="space-between" align="flex-end" mt="xl">
-        {/* Card chip, purely decorative. */}
-        <Box
-          aria-hidden
-          w={42}
-          h={30}
-          style={{
-            borderRadius: 7,
-            background: 'linear-gradient(135deg, #ffe08a 0%, #d9a62e 100%)',
-            boxShadow: 'inset 0 0 0 1px rgb(0 0 0 / 15%)',
-          }}
-        />
+        <Text size="xs" c="teal.1" tt="uppercase" style={{ letterSpacing: 1.2 }}>
+          Valid for home-visit care
+        </Text>
         {/* Scannable strip, purely decorative. */}
         <Box
           aria-hidden

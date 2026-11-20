@@ -7,9 +7,7 @@ Mantine's Vite template.
 **Live demo:** https://ankit500ak.github.io/geriatric-assessment-form/
 
 Hosted on GitHub Pages from the `docs` folder, which holds the production
-build (`yarn build` output). Vercel could not run this template's Yarn 4.18
-bundle in its build environment, so Pages is used instead; the app code is
-identical either way.
+build (`yarn build` output).
 
 ## Run it locally
 
@@ -32,6 +30,8 @@ yarn test   # typecheck, lint, format check, unit tests and production build
   schema into `@mantine/form` with `schemaResolver`, so no validation rule is
   repeated in the components. Errors appear under each field, validation runs
   on blur and on submit, and untouched fields stay quiet.
+- `src/features/assessment/AssessmentCard.tsx` — after a save, the parsed
+  assessment is shown as a patient record card.
 - `src/features/assessment/sample.ts` — the invented sample patient from the
   brief, loaded by the "Load sample patient" button.
 
@@ -41,7 +41,7 @@ Two decisions worth noting:
   nurse has not typed anything yet), because an empty form can never satisfy
   the schema's output type. On submit, the values are run through
   `assessmentSchema.parse`, and it is that parsed `Assessment` — not the raw
-  form state — that is shown in the success alert and passed to the save
+  form state — that is shown on the record card and passed to the save
   handler.
 - The Mobility dropdown options are derived from the schema's `MOBILITY`
   array, so adding a value there (for example `home_visit`) makes it appear
@@ -60,9 +60,7 @@ asked; there is no backend.
 
 ## Time spent
 
-About an hour of building and testing, plus extra time fighting the
-deployment environment (Vercel's Yarn issue above) before the demo landed on
-GitHub Pages.
+Around 2 hours in total, including the design work and deployment.
 
-Nothing from the brief is left unfinished. Backend, auth, routing and custom
-styling were out of scope and are intentionally not here.
+Nothing from the brief is left unfinished. There is no backend or auth, as
+the brief put both out of scope.
