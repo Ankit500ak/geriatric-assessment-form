@@ -138,7 +138,7 @@ export function AssessmentForm({ onSave }: AssessmentFormProps) {
               </Text>
             </div>
           </Group>
-          <Badge color="white" variant="light" c="teal.9" mt="md" size="md">
+          <Badge variant="white" color="teal" mt="md" size="md">
             Elderly home care · Nurse visit record
           </Badge>
         </Container>
