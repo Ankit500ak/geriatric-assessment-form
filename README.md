@@ -4,7 +4,12 @@ A one-page form a visiting nurse fills in when checking on an elderly patient
 at home. Built with React 19, TypeScript, Mantine and Zod, starting from
 Mantine's Vite template.
 
-**Live demo:** _to be added after deployment_
+**Live demo:** https://ankit500ak.github.io/geriatric-assessment-form/
+
+Hosted on GitHub Pages from the `docs` folder, which holds the production
+build (`yarn build` output). Vercel could not run this template's Yarn 4.18
+bundle in its build environment, so Pages is used instead; the app code is
+identical either way.
 
 ## Run it locally
 
@@ -55,7 +60,9 @@ asked; there is no backend.
 
 ## Time spent
 
-About 1.5 hours, including setup, the form, the tests and deployment.
+About an hour of building and testing, plus extra time fighting the
+deployment environment (Vercel's Yarn issue above) before the demo landed on
+GitHub Pages.
 
 Nothing from the brief is left unfinished. Backend, auth, routing and custom
 styling were out of scope and are intentionally not here.
