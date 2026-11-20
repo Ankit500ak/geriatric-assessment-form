@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import {
   Alert,
@@ -16,9 +17,8 @@ import {
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { schemaResolver, useForm } from '@mantine/form';
-import dayjs from 'dayjs';
-import { assessmentSchema, MOBILITY, type Assessment } from './schema';
 import { samplePatient } from './sample';
+import { assessmentSchema, MOBILITY, type Assessment } from './schema';
 
 // 'home_visit' -> 'Home visit'. Built from MOBILITY, so a new value in the
 // schema shows up here with no other edit.

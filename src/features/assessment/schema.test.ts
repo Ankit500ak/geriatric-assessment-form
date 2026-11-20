@@ -1,5 +1,5 @@
-import { assessmentSchema } from './schema';
 import { samplePatient } from './sample';
+import { assessmentSchema } from './schema';
 
 describe('assessmentSchema — age 60 rule', () => {
   it('accepts a patient who turns 60 on the assessment date', () => {
